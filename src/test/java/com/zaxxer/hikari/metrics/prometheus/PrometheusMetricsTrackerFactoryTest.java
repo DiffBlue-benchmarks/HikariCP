@@ -1,76 +1,65 @@
 package com.zaxxer.hikari.metrics.prometheus;
 
 import com.zaxxer.hikari.metrics.PoolStats;
-import io.prometheus.client.Collector;
+import com.zaxxer.hikari.metrics.prometheus.PrometheusMetricsTrackerFactory;
 import io.prometheus.client.CollectorRegistry;
-import org.junit.After;
+import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.junit.rules.Timeout;
 
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class PrometheusMetricsTrackerFactoryTest {
 
-   @Test
-   public void registersToProvidedCollectorRegistry() {
-      CollectorRegistry collectorRegistry = new CollectorRegistry();
-      PrometheusMetricsTrackerFactory factory = new PrometheusMetricsTrackerFactory(collectorRegistry);
-      factory.create("testpool-1", poolStats());
-      assertHikariMetricsAreNotPresent(CollectorRegistry.defaultRegistry);
-      assertHikariMetricsArePresent(collectorRegistry);
-   }
+  @Rule
+  public final Timeout globalTimeout = new Timeout(10000);
 
-   @Test
-   public void registersToDefaultCollectorRegistry() {
-      PrometheusMetricsTrackerFactory factory = new PrometheusMetricsTrackerFactory();
-      factory.create("testpool-2", poolStats());
-      assertHikariMetricsArePresent(CollectorRegistry.defaultRegistry);
-   }
+  @Rule
+  public final ExpectedException thrown = ExpectedException.none();
 
-   @After
-   public void clearCollectorRegistry(){
-      CollectorRegistry.defaultRegistry.clear();
-   }
+  // Test written by Diffblue Cover
+  @Test
+  public void constructorOutputNotNull999e8e6c9fc5d64f990() {
 
-   private void assertHikariMetricsArePresent(CollectorRegistry collectorRegistry) {
-      List<String> registeredMetrics = toMetricNames(collectorRegistry.metricFamilySamples());
-      assertTrue(registeredMetrics.contains("hikaricp_active_connections"));
-      assertTrue(registeredMetrics.contains("hikaricp_idle_connections"));
-      assertTrue(registeredMetrics.contains("hikaricp_pending_threads"));
-      assertTrue(registeredMetrics.contains("hikaricp_connections"));
-      assertTrue(registeredMetrics.contains("hikaricp_max_connections"));
-      assertTrue(registeredMetrics.contains("hikaricp_min_connections"));
-   }
+    // Act, creating object to test constructor
+    final PrometheusMetricsTrackerFactory actual = new PrometheusMetricsTrackerFactory();
 
-   private void assertHikariMetricsAreNotPresent(CollectorRegistry collectorRegistry) {
-      List<String> registeredMetrics = toMetricNames(collectorRegistry.metricFamilySamples());
-      assertFalse(registeredMetrics.contains("hikaricp_active_connections"));
-      assertFalse(registeredMetrics.contains("hikaricp_idle_connections"));
-      assertFalse(registeredMetrics.contains("hikaricp_pending_threads"));
-      assertFalse(registeredMetrics.contains("hikaricp_connections"));
-      assertFalse(registeredMetrics.contains("hikaricp_max_connections"));
-      assertFalse(registeredMetrics.contains("hikaricp_min_connections"));
-   }
+    // Assert result
+    Assert.assertNotNull(actual);
 
-   private List<String> toMetricNames(Enumeration<Collector.MetricFamilySamples> enumeration) {
-      List<String> list = new ArrayList<>();
-      while (enumeration.hasMoreElements()) {
-         list.add(enumeration.nextElement().name);
-      }
-      return list;
-   }
+  }
 
-   private PoolStats poolStats() {
-      return new PoolStats(0) {
-         @Override
-         protected void update() {
-            // do nothing
-         }
-      };
-   }
+  // Test written by Diffblue Cover
+  @Test
+  public void constructorInputNotNullOutputNotNull999e5f69e245e3ed39c() {
 
+    // Arrange
+    final CollectorRegistry arg0 = new CollectorRegistry();
+
+    // Act, creating object to test constructor
+    final PrometheusMetricsTrackerFactory actual = new PrometheusMetricsTrackerFactory(arg0);
+
+    // Assert result
+    Assert.assertNotNull(actual);
+
+  }
+
+  // Test written by Diffblue Cover
+  @Test
+  public void createInputNotNullNullOutputNullPointerException999184d236249f43e3d() {
+
+    // Arrange
+    final PrometheusMetricsTrackerFactory thisObj = new PrometheusMetricsTrackerFactory();
+    final String arg0 = "aaaaa";
+    final PoolStats arg1 = null;
+
+    // Act
+    thrown.expect(NullPointerException.class);
+    thisObj.create(arg0, arg1);
+
+    // The method is not expected to return due to exception thrown
+
+  }
 }

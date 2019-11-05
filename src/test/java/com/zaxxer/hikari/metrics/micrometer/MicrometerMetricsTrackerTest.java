@@ -1,41 +1,98 @@
 package com.zaxxer.hikari.metrics.micrometer;
 
 import com.zaxxer.hikari.metrics.PoolStats;
-import io.micrometer.core.instrument.MeterRegistry;
-import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
+import com.zaxxer.hikari.metrics.micrometer.MicrometerMetricsTracker;
+import io.micrometer.core.instrument.composite.CompositeMeterRegistry;
 import org.junit.Assert;
-import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.junit.rules.Timeout;
+
+
 
 public class MicrometerMetricsTrackerTest {
 
-   private MeterRegistry mockMeterRegistry = new SimpleMeterRegistry();
+  @Rule
+  public final Timeout globalTimeout = new Timeout(10000);
 
-   private MicrometerMetricsTracker testee;
+  // Test written by Diffblue Cover
+  @Test
+  public void constructorInputNotNullNullNotNullOutputNotNull999d39ca9c7a9b8ed48() {
 
-   @Before
-   public void setup(){
-      testee = new MicrometerMetricsTracker("mypool", new PoolStats(1000L) {
-         @Override
-         protected void update() {
-            // nothing
-         }
-      }, mockMeterRegistry);
-   }
+    // Arrange
+    final String arg0 = "aaaaa";
+    final PoolStats arg1 = null;
+    final CompositeMeterRegistry arg2 = new CompositeMeterRegistry();
 
-   @Test
-   public void close() throws Exception {
-      Assert.assertNotNull(mockMeterRegistry.find("hikaricp.connections.acquire").tag("pool", "mypool").timer());
-      Assert.assertNotNull(mockMeterRegistry.find("hikaricp.connections.usage").tag("pool", "mypool").timer());
-      Assert.assertNotNull(mockMeterRegistry.find("hikaricp.connections.creation").tag("pool", "mypool").timer());
-      Assert.assertNotNull(mockMeterRegistry.find("hikaricp.connections.timeout").tag("pool", "mypool").counter());
-      Assert.assertNotNull(mockMeterRegistry.find("hikaricp.connections").tag("pool", "mypool").gauge());
-      Assert.assertNotNull(mockMeterRegistry.find("hikaricp.connections.idle").tag("pool", "mypool").gauge());
-      Assert.assertNotNull(mockMeterRegistry.find("hikaricp.connections.active").tag("pool", "mypool").gauge());
-      Assert.assertNotNull(mockMeterRegistry.find("hikaricp.connections.pending").tag("pool", "mypool").gauge());
-      Assert.assertNotNull(mockMeterRegistry.find("hikaricp.connections.max").tag("pool", "mypool").gauge());
-      Assert.assertNotNull(mockMeterRegistry.find("hikaricp.connections.min").tag("pool", "mypool").gauge());
+    // Act, creating object to test constructor
+    final MicrometerMetricsTracker actual = new MicrometerMetricsTracker(arg0, arg1, arg2);
 
-      testee.close();
-   }
+    // Assert result
+    Assert.assertNotNull(actual);
+
+  }
+
+  // Test written by Diffblue Cover
+  @Test
+  public void recordConnectionAcquiredNanosInputPositiveOutputVoid999d815aaee3724ed0c() {
+
+    // Arrange
+    final CompositeMeterRegistry compositeMeterRegistry = new CompositeMeterRegistry();
+    final MicrometerMetricsTracker thisObj = new MicrometerMetricsTracker("aaaaa", null, compositeMeterRegistry);
+    final long arg0 = 1L;
+
+    // Act
+    thisObj.recordConnectionAcquiredNanos(arg0);
+
+    // The method returns void, testing that no exception is thrown
+
+  }
+
+  // Test written by Diffblue Cover
+  @Test
+  public void recordConnectionCreatedMillisInputPositiveOutputVoid99974e20bb16d571676() {
+
+    // Arrange
+    final CompositeMeterRegistry compositeMeterRegistry = new CompositeMeterRegistry();
+    final MicrometerMetricsTracker thisObj = new MicrometerMetricsTracker("aaaaa", null, compositeMeterRegistry);
+    final long arg0 = 1L;
+
+    // Act
+    thisObj.recordConnectionCreatedMillis(arg0);
+
+    // The method returns void, testing that no exception is thrown
+
+  }
+
+  // Test written by Diffblue Cover
+  @Test
+  public void recordConnectionTimeoutOutputVoid99974572b2822312bdc() {
+
+    // Arrange
+    final CompositeMeterRegistry compositeMeterRegistry = new CompositeMeterRegistry();
+    final MicrometerMetricsTracker thisObj = new MicrometerMetricsTracker("aaaaa", null, compositeMeterRegistry);
+
+    // Act
+    thisObj.recordConnectionTimeout();
+
+    // The method returns void, testing that no exception is thrown
+
+  }
+
+  // Test written by Diffblue Cover
+  @Test
+  public void recordConnectionUsageMillisInputPositiveOutputVoid99935a20efeb80dd7f0() {
+
+    // Arrange
+    final CompositeMeterRegistry compositeMeterRegistry = new CompositeMeterRegistry();
+    final MicrometerMetricsTracker thisObj = new MicrometerMetricsTracker("aaaaa", null, compositeMeterRegistry);
+    final long arg0 = 1L;
+
+    // Act
+    thisObj.recordConnectionUsageMillis(arg0);
+
+    // The method returns void, testing that no exception is thrown
+
+  }
 }
